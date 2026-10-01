@@ -1,0 +1,6 @@
+{
+  "name": "Kinetix Splash Studio",
+  "description": "Studio-grade Android and iOS splash screen maker with Figma-style Smart Animate flow graphs, pre-loaded templates, custom image URLs, full color systems, and real MP4, PNG, and JPG export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
