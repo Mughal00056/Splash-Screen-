@@ -36,6 +36,7 @@ interface DevicePreviewStageProps {
     updates: Partial<LayerStateSnapshot>
   ) => void;
   onQuickExport: (format: 'mp4' | 'png' | 'jpg') => void;
+  onOpenLivePreview: () => void;
   isExporting: boolean;
 }
 
@@ -54,6 +55,7 @@ export const DevicePreviewStage: React.FC<DevicePreviewStageProps> = ({
   onSelectState,
   onUpdateLayerSnapshot,
   onQuickExport,
+  onOpenLivePreview,
   isExporting,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -151,8 +153,16 @@ export const DevicePreviewStage: React.FC<DevicePreviewStageProps> = ({
           </span>
         </div>
 
-        {/* Instant 1-Click Export Triggers */}
+        {/* Instant 1-Click Preview & Export Triggers */}
         <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={onOpenLivePreview}
+            className="flex items-center gap-1.5 px-3 py-1 text-xs font-semibold bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-md transition-colors whitespace-nowrap"
+          >
+            <Play className="w-3.5 h-3.5 fill-current" />
+            Live Preview (iOS + Android)
+          </button>
           <button
             type="button"
             disabled={isExporting}

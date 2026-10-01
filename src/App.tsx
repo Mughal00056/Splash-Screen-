@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { DevicePreviewStage } from './components/DevicePreviewStage';
 import { ExportAndCodeModal } from './components/ExportAndCodeModal';
 import { FigmaFlowCanvas } from './components/FigmaFlowCanvas';
+import { LivePreviewModal } from './components/LivePreviewModal';
 import { PropertyInspector } from './components/PropertyInspector';
 import { TemplateSidebar } from './components/TemplateSidebar';
 import {
@@ -55,8 +56,9 @@ export default function App() {
     'workspace' | 'flow-focus'
   >('workspace');
 
-  // Export state
+  // Export & Live Preview state
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
+  const [isLivePreviewOpen, setIsLivePreviewOpen] = useState<boolean>(false);
   const [isExporting, setIsExporting] = useState<boolean>(false);
   const [exportProgress, setExportProgress] = useState<number>(0);
   const [exportStageText, setExportStageText] = useState<string>('');
@@ -617,13 +619,10 @@ export default function App() {
         <div className="flex items-center gap-2.5">
           <button
             type="button"
-            onClick={() => {
-              if (!isPlaying) setCurrentTimeMs(0);
-              setIsPlaying(!isPlaying);
-            }}
-            className="px-3.5 py-1.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-colors whitespace-nowrap"
+            onClick={() => setIsLivePreviewOpen(true)}
+            className="px-3.5 py-1.5 text-xs font-semibold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-lg transition-colors whitespace-nowrap"
           >
-            {isPlaying ? 'Pause Preview' : 'Play Flow'}
+            Live Simulator Preview
           </button>
           <button
             type="button"
@@ -673,6 +672,7 @@ export default function App() {
               onSelectState={handleSelectState}
               onUpdateLayerSnapshot={handleUpdateLayerSnapshot}
               onQuickExport={handleQuickExport}
+              onOpenLivePreview={() => setIsLivePreviewOpen(true)}
               isExporting={isExporting}
             />
           </div>
@@ -713,6 +713,15 @@ export default function App() {
           />
         </div>
       </div>
+
+      {/* Interactive Full-Screen Live Launch Simulator (Dual iOS + Android Preview) */}
+      <LivePreviewModal
+        isOpen={isLivePreviewOpen}
+        onClose={() => setIsLivePreviewOpen(false)}
+        project={project}
+        onQuickExport={handleQuickExport}
+        isExporting={isExporting}
+      />
 
       {/* Export MP4 / PNG / JPG & Native Code Handoff Modal */}
       <ExportAndCodeModal
